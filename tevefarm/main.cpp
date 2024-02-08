@@ -14,11 +14,22 @@ int bfs(int head){
     for (int i=0; i < R[head].size(); i++){
         sum += bfs(R[head][i]);
     }
+    S[head] = sum;
     if (T[head] >= sum){
-        res.push_back(head);
         return T[head];
     }
-    return sum;
+    return S[head];
+}
+
+int fs(int head){
+    if (S[head] <= T[head]){
+        res.push_back(head);
+        return 0;
+    }
+    for (int i=0; i < R[head].size(); i++){
+        fs(R[head][i]);
+    }
+    return 0;
 }
 
 int main()
@@ -32,6 +43,11 @@ int main()
         R[x].push_back(i);
     }
     bfs(1);
+
+    // Search for result
+
+    fs(1);
+
     // Get the max and the cities
     cout << bfs(1) << '\n';
     cout << res.size() << '\n';
